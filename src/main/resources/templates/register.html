@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Bookie</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
+</head>
+<body>
+<div class="col-6 offset-3 mt-4" sec:authorize="isAnonymous()">
+    <form th:action="@{/account/register}" method="post" th:object="${account}">
+        <h5>Account register</h5>
+        <div class="form-row">
+            <div class="col-md-4 mb-4">
+                <label for="validationLogin">Login email</label>
+                <input th:field="*{login}" type="email" class="form-control" id="validationLogin" required>
+                <p th:errors="*{login}"></p>
+            </div>
+            <div class="col-md-4 mb-4">
+                <label for="validationPassword">Password</label>
+                <input th:field="*{password}" type="password" class="form-control" id="validationPassword"
+                       oninput="form.validationPassword2.pattern = escapeRegExp(this.value)" required>
+                <p th:errors="*{password}">invalid first name</p>
+            </div>
+            <div class="col-md-4 mb-4">
+                <label for="validationPassword2">Password</label>
+                <input th:field="*{password}" type="password" class="form-control" id="validationPassword2" required>
+                <p th:errors="*{password}"></p>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-4 mb-4">
+                <label for="validationName">Account name</label>
+                <input th:field="*{name}" type="text" class="form-control" id="validationName" required>
+                <p th:errors="*{name}"></p>
+            </div>
+            <div class="col-md-4 mb-4">
+                <label for="validationDescription">Account description</label>
+                <input th:field="*{accountDescription}" type="text" class="form-control"
+                       id="validationDescription" required>
+                <p th:errors="*{accountDescription}"></p>
+            </div>
+            <div class="col-md-4 mb-4">
+                <label for="accountType">Account type</label>
+                <select th:field="*{accountType}" class="form-control" id="accountType" required>
+                    <option th:field="*{accountType}" value="PUBLIC">Public</option>
+                    <option th:field="*{accountType}" value="PRIVATE">Private</option>
+                </select>
+            </div>
+        </div>
+        <input th:field="*{accountStatus}" value="ACTIVE" type="hidden" class="form-control">
+        <div class="text-center mt-2">
+            <button class="btn btn-primary btn-sm" type="submit">Register</button>
+        </div>
+    </form>
+</div>
+<script>
+    function escapeRegExp(str) {
+        return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+    }
+</script>
+</body>
+</html>

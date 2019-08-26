@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Wall</title>
+</head>
+<body>
+<p th:if="${exception} != null" th:text="${exception}"></p>
+<form th:action="@{/account/entry/publish}" method="post" th:object="${entry}">
+    <label for="userEntry">You'r entry</label>
+    <textarea th:fields="*{content}" rows="10" cols="70" id="userEntry"></textarea>
+    <input type="hidden" th:fields="*{entryCreateDate}" th:value="${#dates.createNow()}">
+    <input type="hidden" th:fields="*{entryStatus}" th:value="${T(com.twiki.util.EntryStatus).ORGINAL.name()}">
+    <input type="hidden" th:fields="*{entryType}" th:value="${T(com.twiki.util.EntryType).STANDARD_ENTRY.name()}">
+    <input type="submit" th:value="publish">
+</form>
+</body>
+</html>
