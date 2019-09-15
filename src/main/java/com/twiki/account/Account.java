@@ -1,7 +1,7 @@
 package com.twiki.account;
 
 import com.twiki.Security.AccountRoles;
-import com.twiki.entry.Entry;
+import com.twiki.entry.post.Post;
 import com.twiki.observedAccounts.ObservedAccounts;
 import com.twiki.util.AccountStatus;
 import com.twiki.util.AccountType;
@@ -13,6 +13,7 @@ import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 @Entity
 public class Account {
@@ -35,13 +36,16 @@ public class Account {
     @Enumerated(value = EnumType.STRING)
     private AccountType accountType;
 
-    @OneToMany(mappedBy = "entryOwner", fetch = FetchType.EAGER)
-    private Set<Entry> entries = new HashSet<>();
+    @OneToMany(mappedBy = "postOwner", cascade = CascadeType.ALL)
+    private Set<Post> posts = new TreeSet<>();
 
-    @ManyToMany(mappedBy = "accounts", fetch = FetchType.EAGER)
-    private Set<Entry> favoritesEntries = new HashSet<>();
+    @ManyToMany(mappedBy = "accounts", cascade = CascadeType.ALL)
+    private Set<Post> favoritesPosts = new TreeSet<>();
 
-    @OneToMany(mappedBy = "observerAccount", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "accounts", cascade = CascadeType.ALL)
+    private Set<Post> sharedPosts = new TreeSet<>();
+
+    @OneToMany(mappedBy = "observerAccount", cascade = CascadeType.ALL)
     private Set<ObservedAccounts> observedAccounts = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -138,20 +142,28 @@ public class Account {
         this.accountType = accountType;
     }
 
-    public Set<Entry> getEntries() {
-        return entries;
+    public Set<Post> getPosts() {
+        return posts;
     }
 
-    public void setEntries(Set<Entry> entries) {
-        this.entries = entries;
+    public void setPosts(Set<Post> posts) {
+        this.posts = posts;
     }
 
-    public Set<Entry> getFavoritesEntries() {
-        return favoritesEntries;
+    public Set<Post> getFavoritesPosts() {
+        return favoritesPosts;
     }
 
-    public void setFavoritesEntries(Set<Entry> favoritesEntries) {
-        this.favoritesEntries = favoritesEntries;
+    public void setFavoritesPosts(Set<Post> favoritesPosts) {
+        this.favoritesPosts = favoritesPosts;
+    }
+
+    public Set<Post> getSharedPosts() {
+        return sharedPosts;
+    }
+
+    public void setSharedPosts(Set<Post> sharedPosts) {
+        this.sharedPosts = sharedPosts;
     }
 
     public Set<ObservedAccounts> getObservedAccounts() {

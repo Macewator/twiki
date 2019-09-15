@@ -2,7 +2,7 @@ package com.twiki.util;
 
 public enum EntryType {
 
-    STANDARD_ENTRY,
+    POST_ENTRY,
     COMMENT_ENTRY,
     HANDED_ENTRY
 }

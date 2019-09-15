@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    /*private final static String[] staticResources = {"/css/**", "/images/**"};*/
+    private final static String[] staticResources = {"/css/**", "/images/**"};
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -22,19 +22,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/account/register").permitAll()
+                .antMatchers(staticResources).permitAll()
+                .antMatchers("/accounts/register").permitAll()
+                .antMatchers("/h2-console/**").permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin()
                 .loginPage("/")
                 .loginProcessingUrl("/process_login")
                 .usernameParameter("login")
                 .passwordParameter("pass")
-                .defaultSuccessUrl("/account/wall")
                 .permitAll()
                 .and().logout()
                 .logoutUrl("/process_logout")
                 .logoutSuccessUrl("/")
                 .deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true);
+        http.csrf().disable();
+        http.headers().frameOptions().disable();
     }
 }

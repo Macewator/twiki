@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <title>Bookie</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
+   <!-- <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>-->
 </head>
 <body>
 <div class="col-6 offset-3 mt-4" sec:authorize="isAnonymous()">
-    <form th:action="@{/account/register}" method="post" th:object="${account}">
+    <form th:action="@{/accounts/register}" method="post" th:object="${account}">
         <h5>Account register</h5>
         <div class="form-row">
             <div class="col-md-4 mb-4">
@@ -24,8 +24,7 @@
             </div>
             <div class="col-md-4 mb-4">
                 <label for="validationPassword2">Password</label>
-                <input th:field="*{password}" type="password" class="form-control" id="validationPassword2" required>
-                <p th:errors="*{password}"></p>
+                <input type="password" class="form-control" id="validationPassword2" required>
             </div>
         </div>
         <div class="form-row">
@@ -43,12 +42,11 @@
             <div class="col-md-4 mb-4">
                 <label for="accountType">Account type</label>
                 <select th:field="*{accountType}" class="form-control" id="accountType" required>
-                    <option th:field="*{accountType}" value="PUBLIC">Public</option>
-                    <option th:field="*{accountType}" value="PRIVATE">Private</option>
+                    <option th:value="${T(com.twiki.util.AccountType).PUBLIC}">Public</option>
+                    <option th:value="${T(com.twiki.util.AccountType).PRIVATE}">Private</option>
                 </select>
             </div>
         </div>
-        <input th:field="*{accountStatus}" value="ACTIVE" type="hidden" class="form-control">
         <div class="text-center mt-2">
             <button class="btn btn-primary btn-sm" type="submit">Register</button>
         </div>

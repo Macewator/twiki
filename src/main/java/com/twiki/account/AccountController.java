@@ -1,6 +1,5 @@
 package com.twiki.account;
 
-import com.twiki.entry.Entry;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,39 +19,35 @@ public class AccountController {
     }
 
     @GetMapping("/")
-    public String home() {
+    public String home(Authentication auth, Model model) {
+        if (auth != null) {
+            model.addAttribute("accountName", accountService.getAccountNameByLogin(auth.getName()));
+        }
         return "login";
     }
 
-    @GetMapping("/account/register")
+    @GetMapping("/accounts/register")
     public String registerForm(Model model) {
         model.addAttribute("account", new Account());
         return "register";
     }
 
-    @PostMapping("/account/register")
+    @PostMapping("/accounts/register")
     public String registerAccount(@ModelAttribute @Valid Account account, BindingResult result) {
         if (result.hasErrors()) {
             return "register";
         }
         accountService.saveAccount(account);
-        return "redirect:/account";
+        return "login";
     }
 
-    @GetMapping("/account/wall")
-    public String displayAccountWall(Authentication auth, Model model) {
+    @GetMapping("/accounts/{accountName}/wall")
+    public String displayAccountWall(@PathVariable String accountName, Model model) {
         try {
-            model.addAttribute("account", accountService.getAccount(auth.getName()));
+            model.addAttribute("account", accountService.getAccountByName(accountName));
         } catch (NoSuchElementException e) {
             model.addAttribute("exception", e.getMessage());
         }
-        model.addAttribute("entry", accountService.prepareEntry());
         return "account";
-    }
-
-    @PostMapping("/account/entry/publish")
-    public String publish(@ModelAttribute Entry entry, Authentication auth) {
-        accountService.publishEntry(entry, auth.getName());
-        return "redirect:/account/wall";
     }
 }

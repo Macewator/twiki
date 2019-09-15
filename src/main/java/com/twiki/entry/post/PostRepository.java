@@ -1,8 +1,8 @@
-package com.twiki.entry;
+package com.twiki.entry.post;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface EntryRepository extends JpaRepository<Entry, Long> {
+public interface PostRepository extends JpaRepository<Post, Long> {
 }
