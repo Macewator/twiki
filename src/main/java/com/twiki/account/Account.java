@@ -1,7 +1,7 @@
 package com.twiki.account;
 
 import com.twiki.Security.AccountRoles;
-import com.twiki.entry.post.Post;
+import com.twiki.post.Post;
 import com.twiki.observedAccounts.ObservedAccounts;
 import com.twiki.util.AccountStatus;
 import com.twiki.util.AccountType;

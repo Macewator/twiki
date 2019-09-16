@@ -1,4 +1,4 @@
-package com.twiki.entry.comment;
+package com.twiki.comment;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

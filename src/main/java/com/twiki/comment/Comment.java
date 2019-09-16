@@ -1,7 +1,7 @@
-package com.twiki.entry.comment;
+package com.twiki.comment;
 
 import com.twiki.account.Account;
-import com.twiki.entry.post.Post;
+import com.twiki.post.Post;
 import com.twiki.util.EntryStatus;
 import com.twiki.util.EntryType;
 

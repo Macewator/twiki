@@ -1,8 +1,8 @@
 package com.twiki.util;
 
 import com.twiki.account.Account;
-import com.twiki.entry.comment.Comment;
-import com.twiki.entry.post.Post;
+import com.twiki.comment.Comment;
+import com.twiki.post.Post;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 

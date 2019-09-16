@@ -1,35 +1,27 @@
-package com.twiki.entry.post;
+package com.twiki.comment;
 
 import com.twiki.account.Account;
 import com.twiki.account.AccountRepository;
-import com.twiki.entry.comment.Comment;
-import com.twiki.entry.comment.CommentRepository;
+import com.twiki.post.Post;
+import com.twiki.post.PostRepository;
 import com.twiki.util.UserEntry;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
 
 @Service
-public class PostService {
+public class CommentService {
 
     private PostRepository postRepository;
     private AccountRepository accountRepository;
     private UserEntry userEntry;
     private CommentRepository commentRepository;
 
-    public PostService(PostRepository postRepository, AccountRepository accountRepository, UserEntry userEntry, CommentRepository commentRepository) {
+    public CommentService(PostRepository postRepository, AccountRepository accountRepository, UserEntry userEntry, CommentRepository commentRepository) {
         this.postRepository = postRepository;
-        this.commentRepository = commentRepository;
         this.accountRepository = accountRepository;
         this.userEntry = userEntry;
-    }
-
-    public void publishPost(String postContent, String accountLogin) {
-        Account postOwner = accountRepository.findByLogin(accountLogin)
-                .orElseThrow(() -> new NoSuchElementException("user not founded"));
-        Post post = userEntry.prepareNewPost();
-        userEntry.createPost(postContent, postOwner);
-        postRepository.save(post);
+        this.commentRepository = commentRepository;
     }
 
     public void publishComment(Long id, String commentContent, String accountLogin) {
