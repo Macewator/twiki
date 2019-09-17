@@ -32,20 +32,21 @@ public class UserEntry {
     public void createPost(String entryContent, Account postOwner){
         String entryDate = createUserEntryDate();
         post.setCreateDate(entryDate);
-        post.setContent(entryContent);
-        post.setPostOwner(postOwner);
         post.setStatus(EntryStatus.ORIGINAL);
         post.setType(EntryType.POST_ENTRY);
+        post.setContent(entryContent);
+        post.setPostOwner(postOwner);
     }
 
     public void createComment(String entryContent, Account commentOwner, Post post){
         String entryDate = createUserEntryDate();
         comment.setCreateDate(entryDate);
+        comment.setStatus(EntryStatus.ORIGINAL);
+        comment.setType(EntryType.COMMENT_ENTRY);
         comment.setContent(entryContent);
         comment.setCommentOwner(commentOwner);
         comment.setPost(post);
-        comment.setStatus(EntryStatus.ORIGINAL);
-        comment.setType(EntryType.COMMENT_ENTRY);
+
     }
 
     private String createUserEntryDate(){

@@ -23,9 +23,11 @@
 </nav>
 
 <div class="container-fluid">
+
     <p th:if="${exception} != null" th:text="${exception}"></p>
+
     <div class="row">
-        <div class="col-md-2 col-sm-4 sidebar1">
+        <div class="col-2 sidebar1">
             <div class="logo">
                 <img src="http://lorempixel.com/output/people-q-g-64-64-1.jpg" class="img-responsive center-block"
                      alt="Logo">
@@ -47,97 +49,94 @@
                 </ul>
             </div>
         </div>
-        <div class="col-md-6 col-sm-4 col-md-offset-4 main-content">
-            <div class="row">
-                <div class="col-md-8 col-md-offset-6">
-                    <form th:action="@{/posts(accountName=${account.name})}" method="post">
-                        <div class="form-group">
-                            <label for="entryContent">Create post</label>
-                            <textarea rows="5" class="form-control" name="postContent" id="entryContent"
-                                      required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">
-                                Create
-                            </button>
-                            <button type="reset" class="btn btn-default">
-                                Cancel
-                            </button>
-                        </div>
-                    </form>
+
+        <div class="col-4 offset-2 mt-3">
+            <form th:action="@{/posts(accountName=${account.name})}" method="post">
+                <div class="form-group">
+                    <label for="entryContent">Create post</label>
+                    <textarea rows="5" class="form-control" name="postContent" id="entryContent"
+                              required></textarea>
                 </div>
-                <div class="container">
-                    <div class="col-sm-8" th:each="post: ${account.posts}">
-                        <div class="media border p-3">
-                            <img src="https://bootdey.com/img/Content/user_1.jpg" alt="John Doe"
-                                 class="mr-3 mt-3 rounded-circle" style="width:60px;">
-                            <div class="media-body">
-                                <p>
-                                    <a th:href="@{/accounts/__${account.name}__/wall}">
-                                        <b th:text="${account.name}">Ryan Haywood</b>
-                                    </a>
-                                    <small>
-                                        <i th:text="|Posted on ${post.createDate}|">Posted on February 19, 2016</i>
-                                    </small>
-                                </p>
-                                <p th:text="${post.content}">Lorem ipsum...</p>
-                                <div class="stats">
-                                    <a href="#" class="btn btn-default stat-item">
-                                        <i class="fa fa-thumbs-up icon"></i>2
-                                    </a>
-                                    <a href="#" class="btn btn-default stat-item">
-                                        <i class="fa fa-share icon"></i>12
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="post-footer">
-                            <div class="input-group">
-                                <form th:action="@{/comments/post/__${post.id}__(accountName=${account.name})}" method="post">
-                                    <input class="form-control" name="commentContent" placeholder="Add a comment" type="text">
-                                    <span class="input-group-addon">
-                                            <button type="submit"><i class="fa fa-edit"></i></button>
-                                    </span>
-                                </form>
-                            </div>
-                            <ul class="comments-list" th:each="comment : ${post.comments}">
-                                <li class="comment">
-                                    <a class="pull-left" th:href="@{/accounts/__${comment.commentOwner.name}__/wall}">
-                                        <img class="avatar" src="https://bootdey.com/img/Content/user_1.jpg"
-                                             alt="avatar">
-                                    </a>
-                                    <div class="comment-body">
-                                        <div class="comment-heading">
-                                            <h4 class="user" th:text="${comment.commentOwner.name}">Gavino Free</h4>
-                                            <h5 class="time" th:text="${comment.createDate}">5 minutes ago</h5>
-                                        </div>
-                                        <p class="comment-text" th:text="${comment.content}">Sure, oooooooooooooooohhhhhhhhhhhhhhhh</p>
-                                    </div>
-                                   <!-- <ul class="comments-list">
-                                        <li class="comment">
-                                            <a class="pull-left" href="#">
-                                                <img class="avatar" src="https://bootdey.com/img/Content/user_3.jpg"
-                                                     alt="avatar">
-                                            </a>
-                                            <div class="comment-body">
-                                                <div class="comment-heading">
-                                                    <h4 class="user">Ryan Haywood</h4>
-                                                    <h5 class="time">3 minutes ago</h5>
-                                                </div>
-                                                <p>Relax my friend</p>
-                                            </div>
-                                        </li>
-                                    </ul>-->
-                                </li>
-                            </ul>
-                        </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">
+                        Create
+                    </button>
+                    <button type="reset" class="btn btn-default">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-4 offset-4">
+        <div class="panel panel-white post panel-shadow border border-dark" th:each="post: ${account.posts}">
+            <div class="post-heading">
+                <div class="pull-left image">
+                    <img src="https://bootdey.com/img/Content/user_1.jpg" class="img-circle avatar d-inline"
+                         alt="user profile image">
+                    <div class="title h5">
+                        <a class="d-inline" th:href="@{/accounts/__${account.name}__/wall}">
+                            <b th:text="${account.name}">Ryan Haywood</b>
+                        </a>
+                        <small class="text-muted time text-right" th:text="|Posted on ${post.createDate}|">min</small>
                     </div>
                 </div>
+            </div>
+            <div class="post-description">
+                <h6 th:text="${post.content}">Bootdey is a gallery of free snippets</h6>
+                <div class="stats">
+                    <a href="#" class="btn btn-default stat-item">
+                        <i class="fa fa-thumbs-up icon" th:text="${post.likesCount}"></i>
+                    </a>
+                    <a href="#" class="btn btn-default stat-item">
+                        <i class="fa fa-share icon" th:text="${post.sharesCount}"></i>
+                    </a>
+                    <a href="#" class="btn btn-default stat-item">
+                        <i class="fas fa-comment-alt" th:text="${post.commentsCount}"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="post-footer">
+                <div class="input-group">
+                    <form class="form-inline"
+                          th:action="@{/comments/post/__${post.id}__(accountName=${account.name})}" method="post">
+                        <input class="form-control" name="commentContent" placeholder="Add a comment" type="text">
+                        <span class="input-group-addon">
+                                 <button type="submit"><i class="fa fa-edit"></i></button>
+                            </span>
+                    </form>
+                </div>
+                <ul class="comments-list" th:each="comment : ${post.comments}">
+                    <li class="comment">
+                        <a class="pull-left" th:href="@{/accounts/__${account.name}__/wall}">
+                            <img class="avatar" src="https://bootdey.com/img/Content/user_1.jpg" alt="avatar">
+                        </a>
+                        <div class="comment-body">
+                            <div class="comment-heading">
+                                <h4 class="user" th:text="${comment.commentOwner.name}">Gavino Free</h4>
+                                <h5 class="time" th:text="${comment.createDate}">5 minutes ago</h5>
+                            </div>
+                            <p th:text="${comment.content}">Sure, oooooooooooooooohhhhhhhhhhhhhhhh</p>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
 </div>
-</div>
+<!--<script>
+    var button = document.getElementById('show');
+
+    button.onclick = function () {
+        var div = document.getElementById('content');
+        if (div.style.display !== 'none') {
+            div.style.display = 'none';
+        } else {
+            div.style.display = 'block';
+        }
+    };
+</script>-->
 <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </body>

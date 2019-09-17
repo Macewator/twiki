@@ -8,6 +8,7 @@ import com.twiki.util.EntryType;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 @Entity
 public class Comment implements Comparable<Comment>{
@@ -94,6 +95,21 @@ public class Comment implements Comparable<Comment>{
 
     public void setPost(Post post) {
         this.post = post;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Comment comment = (Comment) o;
+        return Objects.equals(content, comment.content) &&
+                Objects.equals(createDate, comment.createDate) &&
+                Objects.equals(commentOwner, comment.commentOwner);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(content, createDate, commentOwner);
     }
 
     @Override

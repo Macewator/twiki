@@ -36,7 +36,7 @@ public class Account {
     @Enumerated(value = EnumType.STRING)
     private AccountType accountType;
 
-    @OneToMany(mappedBy = "postOwner", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "postOwner", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Post> posts = new TreeSet<>();
 
     @ManyToMany(mappedBy = "accounts", cascade = CascadeType.ALL)

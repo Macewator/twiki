@@ -10,19 +10,21 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
 @Entity
-public class Post implements Comparable<Post>{
+public class Post implements Comparable<Post> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
     private String createDate;
-    private int likes;
-    private int shares;
+    private int likesCount;
+    private int sharesCount;
+    private int commentsCount;
     @Enumerated(value = EnumType.STRING)
     private EntryStatus status;
     @Enumerated(value = EnumType.STRING)
@@ -32,7 +34,7 @@ public class Post implements Comparable<Post>{
     @JoinColumn(name = "post_owner_id")
     private Account postOwner;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Comment> comments = new TreeSet<>();
 
     @ManyToMany
@@ -43,11 +45,12 @@ public class Post implements Comparable<Post>{
     public Post() {
     }
 
-    public Post(String content, String createDate, int likes, int shares, EntryStatus status, EntryType type) {
+    public Post(String content, String createDate, int likesCount, int sharesCount, int commentsCount, EntryStatus status, EntryType type) {
         this.content = content;
         this.createDate = createDate;
-        this.likes = likes;
-        this.shares = shares;
+        this.likesCount = likesCount;
+        this.sharesCount = sharesCount;
+        this.commentsCount = commentsCount;
         this.status = status;
         this.type = type;
     }
@@ -76,20 +79,28 @@ public class Post implements Comparable<Post>{
         this.createDate = createDate;
     }
 
-    public int getLikes() {
-        return likes;
+    public int getLikesCount() {
+        return likesCount;
     }
 
-    public void setLikes(int likes) {
-        this.likes = likes;
+    public void setLikesCount(int likesCount) {
+        this.likesCount = likesCount;
     }
 
-    public int getShares() {
-        return shares;
+    public int getSharesCount() {
+        return sharesCount;
     }
 
-    public void setShares(int shares) {
-        this.shares = shares;
+    public void setSharesCount(int sharesCount) {
+        this.sharesCount = sharesCount;
+    }
+
+    public int getCommentsCount() {
+        return commentsCount;
+    }
+
+    public void setCommentsCount(int commentsCount) {
+        this.commentsCount = commentsCount;
     }
 
     public EntryStatus getStatus() {
@@ -130,6 +141,21 @@ public class Post implements Comparable<Post>{
 
     public void setAccounts(Set<Account> accounts) {
         this.accounts = accounts;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Post post = (Post) o;
+        return Objects.equals(content, post.content) &&
+                Objects.equals(createDate, post.createDate) &&
+                Objects.equals(postOwner, post.postOwner);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(content, createDate, postOwner);
     }
 
     @Override
